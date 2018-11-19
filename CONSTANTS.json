@@ -1,0 +1,10 @@
+{
+  "NodeForage":{
+    "defaultOpts":{
+      "description":"",
+      "name": "nodeforage",
+      "//":"Size limit really doesn't matter as the limit is (1GB+ || HW memory limit).",
+      "size": 64000000
+    }
+  }
+}

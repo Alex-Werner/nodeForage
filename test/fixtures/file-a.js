@@ -1,0 +1,3 @@
+const Stuff = {
+  Hello: 'world!',
+};
