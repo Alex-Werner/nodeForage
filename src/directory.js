@@ -21,7 +21,11 @@ const directory = {
   },
   async ensure(p) {
     const exist = await directory.exists(p);
-    return (!exist) ? directory.create(p) : exist;
+    if(!exist){
+      directory.create(p);
+      return directory.ensure(p);
+    }
+    return exist;
   },
   async exists(p) {
     return new Promise((resolve, reject) => {

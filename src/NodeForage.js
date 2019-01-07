@@ -7,14 +7,15 @@ class NodeForage {
     this.name = opts.name || defaultOpts.name;
     this.description = opts.description || defaultOpts.description;
     this.size = opts.size || defaultOpts.size;
+    this.ext = opts.ext || defaultOpts.ext;
     this.isReady = false;
-    this.filePath = `${process.cwd()}/${this.name}.db.json`;
+    this.filePath = `${process.cwd()}/${this.name}${this.ext}`;
   }
 
   async init() {
     if (!this.isReady) {
       await file.ensure(this.filePath, {});
-      this.isReady = false;
+      this.isReady = true;
     }
     return true;
   }
@@ -22,6 +23,7 @@ class NodeForage {
   async setItem(key, item) {
     if (!this.isReady) await this.init();
     const data = await file.read(this.filePath);
+    if(data===null) data = {};
     data[key] = item;
     return file.write(this.filePath, data);
   }

@@ -5,5 +5,7 @@ const parentFilepath = module.parent.filename;
 
 module.exports = {
   createInstance: opts => new NodeForage(merge(defaultOpts, opts),parentFilepath),
+  file: require('./file'),
+  directory: require('./directory'),
   NodeForage,
 };
