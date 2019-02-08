@@ -93,27 +93,27 @@ const file = {
       return new Promise(async (res, rej) => {
         let output;
         // const lock = await slocket(p);
+        try{
+          const data = fs.readFileSync(p, options);
+            // lock.release();
 
-        fs.readFile(p, options, (err, data) => {
-          // lock.release();
-          if (err) {
-            console.log('ERR !', err, 'for', p, options);
-            console.log(data);
-            rej(err);
-          }
-          if (Buffer.isBuffer(data)) output = data.toString('utf8');
-          output = output.replace(/^\uFEFF/, '');
-          let obj;
-          try {
-            obj = JSON.parse(output, options ? options.reviver : null);
-          } catch (err2) {
-            console.log('Parsing issue for', p);
-            console.log('Output:', output);
-            console.log('Data:', data);
-            rej(err2);
-          }
-          res(obj);
-        });
+            if (Buffer.isBuffer(data)) output = data.toString('utf8');
+            output = output.replace(/^\uFEFF/, '');
+            let obj;
+            try {
+              obj = JSON.parse(output, options ? options.reviver : null);
+            } catch (err2) {
+              // console.log('Parsing issue for', p);
+              // console.log('Output:');
+              // console.log(output)
+              // console.log('Data:', data);
+              rej(err2);
+            }
+
+            res(obj);
+        }catch (e) {
+          rej(e);
+        }
       });
     }
     ,
