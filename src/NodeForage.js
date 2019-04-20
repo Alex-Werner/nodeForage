@@ -22,16 +22,29 @@ class NodeForage {
 
   async setItem(key, item) {
     if (!this.isReady) await this.init();
-    const data = await file.read(this.filePath);
-    if(data===null) data = {};
+    let data;
+    try{
+      data = await file.read(this.filePath);
+      if(data===null) data = {};
+    }catch(e){
+      console.error('setItem error - ', e);
+      data = {};
+    }
+
     data[key] = item;
     return file.write(this.filePath, data);
   }
 
   async getItem(key) {
     if (!this.isReady) await this.init();
-    const data = await file.read(this.filePath);
-    return (data[key]);
+    try {
+      const data = await file.read(this.filePath);
+      return (data[key]);
+    }catch(e){
+      console.error('getItem error - ', e);
+      return {};
+    }
+
   }
 
   async delete() {
