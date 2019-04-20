@@ -1,7 +1,8 @@
 const path = require('path');
 const file = require('./file.js');
 const { defaultOpts } = require('../CONSTANTS.json').NodeForage;
-
+const find = require('lodash.find');
+const {isMatch} = require('lodash');
 class NodeForage {
   constructor(opts = {}, parentFilepath = module.parent.filename) {
     this.name = opts.name || defaultOpts.name;
@@ -45,6 +46,14 @@ class NodeForage {
       return {};
     }
 
+  }
+
+  async findItem(searchParams){
+    const data = await file.read(this.filePath);
+
+    return find(data,(user)=>{
+      return isMatch(user, searchParams)
+    })
   }
 
   async delete() {
